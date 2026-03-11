@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TASS · Formulario de Implementación ELITE</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0D1B3E;
+    --navy-mid: #152647;
+    --teal: #00B4D8;
+    --teal-light: #E8F8FC;
+    --gold: #C9952A;
+    --gold-bright: #F4A623;
+    --gold-light: rgba(201,149,42,0.1);
+    --gold-glow: rgba(201,149,42,0.22);
+    --gold-border: rgba(201,149,42,0.35);
+    --gray-50: #F8FAFC;
+    --gray-100: #F1F5F9;
+    --gray-200: #E2E8F0;
+    --gray-300: #CBD5E1;
+    --gray-500: #64748B;
+    --gray-700: #334155;
+    --white: #ffffff;
+    --success: #10B981;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-700);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--navy);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 340px; height: 340px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,149,42,0.14) 0%, transparent 70%);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -50px; left: 20%;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,180,216,0.08) 0%, transparent 70%);
+  }
+  /* stars shimmer */
+  .header-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 44px 32px 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .logo-wrap { margin-bottom: 24px; }
+
+  .elite-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(201,149,42,0.25), rgba(244,166,35,0.1));
+    border: 1px solid var(--gold-border);
+    border-radius: 100px;
+    padding: 5px 14px;
+    margin-bottom: 20px;
+  }
+  .elite-badge span {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--gold-bright);
+    text-transform: uppercase;
+  }
+  .elite-badge::before {
+    content: '✦';
+    font-size: 10px;
+    color: var(--gold-bright);
+    animation: shimmer 2.5s infinite;
+  }
+  @keyframes shimmer {
+    0%,100%{opacity:1}
+    50%{opacity:.4}
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 5vw, 38px);
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .header h1 em {
+    font-style: italic;
+    color: var(--gold-bright);
+  }
+  .header p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+    max-width: 500px;
+    margin-bottom: 24px;
+  }
+
+  /* Elite highlight */
+  .elite-highlight {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  @media(max-width:540px){ .elite-highlight { grid-template-columns: 1fr; } }
+  .elite-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,149,42,0.2);
+    border-radius: 10px;
+    padding: 10px 14px;
+  }
+  .elite-pill-icon { font-size: 16px; flex-shrink: 0; }
+  .elite-pill-text { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.4; }
+  .elite-pill-text strong { color: var(--gold-bright); display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 1px; }
+
+  /* precio lanzamiento */
+  .precio-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(201,149,42,0.15);
+    border: 1px solid var(--gold-border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: var(--gold-bright);
+    font-weight: 600;
+    margin-bottom: 22px;
+  }
+
+  /* Steps header */
+  .header-steps {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 20px;
+    overflow-x: auto;
+  }
+  .h-step {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px 8px 0;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color .2s;
+    position: relative;
+  }
+  .h-step:not(:last-child)::after {
+    content: '›';
+    margin-left: 14px;
+    color: rgba(255,255,255,0.12);
+  }
+  .h-step.active { color: var(--gold-bright); }
+  .h-step.done { color: var(--teal); }
+  .h-step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+    flex-shrink: 0;
+    transition: all .2s;
+  }
+  .h-step.active .h-step-num { background: var(--gold); color: var(--navy); }
+  .h-step.done .h-step-num { background: var(--teal); color: white; }
+
+  /* ── MAIN ── */
+  .main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 60px;
+  }
+
+  .section { display: none; animation: fadeUp .35s ease; }
+  .section.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .section-icon {
+    width: 44px; height: 44px;
+    background: var(--navy);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--navy); line-height: 1.2; }
+  .section-subtitle { font-size: 13px; color: var(--gray-500); margin-top: 3px; }
+
+  .elite-section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--gold-light);
+    border: 1px solid var(--gold-border);
+    border-radius: 100px;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  .field-group { margin-bottom: 20px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:540px){ .field-row { grid-template-columns: 1fr; } }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: 7px;
+  }
+  .req { color: #EF4444; margin-left: 2px; }
+  .opt { color: var(--gray-300); font-weight: 400; font-size: 12px; margin-left: 4px; }
+
+  input[type=text], input[type=email], input[type=tel], input[type=url], input[type=number], textarea, select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--gray-700);
+    background: var(--white);
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-glow);
+  }
+  select { cursor: pointer; }
+  input::placeholder, textarea::placeholder { color: var(--gray-300); }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+  .color-row { display: flex; align-items: center; gap: 10px; }
+  .color-row input[type=color] {
+    width: 48px; height: 44px;
+    padding: 3px;
+    border-radius: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .color-row input[type=text] { flex: 1; }
+
+  .file-drop {
+    border: 2px dashed var(--gray-200);
+    border-radius: 12px;
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+    background: var(--gray-50);
+  }
+  .file-drop:hover { border-color: var(--gold); background: var(--gold-light); }
+  .file-drop.dragover { border-color: var(--gold); background: var(--gold-light); }
+  .file-drop input[type=file] {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer;
+    width: 100%; height: 100%;
+  }
+  .file-drop-icon { font-size: 28px; margin-bottom: 8px; }
+  .file-drop p { font-size: 13px; color: var(--gray-500); line-height: 1.5; }
+  .file-drop p strong { color: var(--gray-700); }
+  .file-name { font-size: 12px; color: var(--success); margin-top: 8px; display: none; font-weight: 600; }
+
+  .chips-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 7px 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 100px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .15s;
+    user-select: none;
+    background: white;
+  }
+  .chip.selected { background: var(--gold-light); border-color: var(--gold); color: #92640A; font-weight: 600; }
+  .chip:hover:not(.selected) { border-color: var(--gray-300); background: var(--gray-50); }
+
+  .cond-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media(max-width:480px){ .cond-cards { grid-template-columns: 1fr; } }
+  .cond-card {
+    border: 2px solid var(--gray-200);
+    border-radius: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all .15s;
+    position: relative;
+    background: white;
+  }
+  .cond-card:hover { border-color: var(--gray-300); }
+  .cond-card.selected { border-color: var(--gold); background: var(--gold-light); }
+  .cond-card input[type=radio] { position: absolute; opacity: 0; }
+  .cond-card-label { font-size: 14px; font-weight: 600; color: var(--gray-700); margin-bottom: 3px; }
+  .cond-card.selected .cond-card-label { color: #92640A; }
+  .cond-card-desc { font-size: 12px; color: var(--gray-500); }
+
+  /* range */
+  .range-wrap { display: flex; align-items: center; gap: 14px; }
+  input[type=range] {
+    flex: 1; -webkit-appearance: none;
+    height: 6px; border-radius: 3px;
+    background: var(--gray-200); outline: none;
+    border: none; box-shadow: none; padding: 0;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--gold); cursor: pointer;
+    box-shadow: 0 2px 6px rgba(201,149,42,0.4);
+  }
+  .range-val { font-size: 15px; font-weight: 700; color: var(--gold); min-width: 40px; text-align: right; }
+
+  /* hints */
+  .hint {
+    background: rgba(0,180,216,0.06);
+    border: 1px solid rgba(0,180,216,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px; color: var(--gray-500);
+    margin-bottom: 20px; line-height: 1.5;
+  }
+  .hint-elite {
+    background: var(--gold-light);
+    border: 1px solid var(--gold-border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px; color: #92640A;
+    margin-bottom: 20px; line-height: 1.5;
+  }
+  .hint-elite strong { color: var(--gold); }
+
+  .divider { height: 1px; background: var(--gray-100); margin: 24px 0; }
+
+  /* nav */
+  .nav {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    margin-top: 28px; padding-top: 20px;
+    border-top: 1px solid var(--gray-100);
+  }
+  .progress-text { font-size: 12px; color: var(--gray-300); }
+
+  .btn {
+    padding: 11px 22px; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer; border: none; transition: all .2s;
+  }
+  .btn-ghost { background: transparent; color: var(--gray-500); border: 1.5px solid var(--gray-200); }
+  .btn-ghost:hover { background: var(--gray-100); }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+    box-shadow: 0 4px 14px rgba(201,149,42,0.3);
+    font-weight: 700;
+  }
+  .btn-primary:hover { background: var(--gold-bright); transform: translateY(-1px); }
+  .btn-submit {
+    background: linear-gradient(135deg, #C9952A, #F4A623);
+    color: var(--navy);
+    padding: 13px 28px;
+    font-size: 15px; border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(201,149,42,0.4);
+    cursor: pointer; border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700; transition: all .2s;
+  }
+  .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(201,149,42,0.5); }
+  .btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+  /* toggle */
+  .toggle-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px; background: white;
+    border: 1.5px solid var(--gray-200); border-radius: 12px;
+    margin-bottom: 10px; transition: border-color .15s;
+  }
+  .toggle-row:has(.toggle:checked) { border-color: var(--gold); background: var(--gold-light); }
+  .toggle-info { flex: 1; }
+  .toggle-label { font-size: 14px; font-weight: 600; color: var(--gray-700); }
+  .toggle-desc { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+  .toggle {
+    width: 44px; height: 24px; -webkit-appearance: none;
+    background: var(--gray-200); border-radius: 12px;
+    cursor: pointer; position: relative;
+    transition: background .2s; flex-shrink: 0;
+    border: none; padding: 0; box-shadow: none;
+  }
+  .toggle::before {
+    content: ''; position: absolute;
+    top: 3px; left: 3px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: white; transition: transform .2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  .toggle:checked { background: var(--gold); }
+  .toggle:checked::before { transform: translateX(20px); }
+  .toggle:focus { outline: none; box-shadow: 0 0 0 3px var(--gold-glow); }
+
+  /* asesoria card — elite only */
+  .asesoria-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  @media(max-width:480px){ .asesoria-grid { grid-template-columns: 1fr; } }
+  .asesoria-card {
+    border: 2px solid var(--gray-200);
+    border-radius: 14px; padding: 16px;
+    cursor: pointer; transition: all .15s;
+    background: white; position: relative;
+  }
+  .asesoria-card:hover { border-color: var(--gold-border); }
+  .asesoria-card.selected { border-color: var(--gold); background: var(--gold-light); }
+  .asesoria-card input[type=checkbox] { position: absolute; opacity: 0; }
+  .asesoria-card-icon { font-size: 24px; margin-bottom: 8px; }
+  .asesoria-card-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .asesoria-card.selected .asesoria-card-title { color: #92640A; }
+  .asesoria-card-desc { font-size: 12px; color: var(--gray-500); line-height: 1.5; }
+
+  /* social config */
+  .social-config {
+    background: white; border: 1.5px solid var(--gray-200);
+    border-radius: 14px; padding: 20px; margin-bottom: 16px;
+  }
+  .social-config-head {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px; padding-bottom: 14px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .social-icon { font-size: 22px; }
+  .social-name { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .social-desc { font-size: 12px; color: var(--gray-500); }
+
+  /* success */
+  .success-screen { display: none; text-align: center; padding: 60px 24px; animation: fadeUp .5s ease; }
+  .success-screen.show { display: block; }
+  .success-icon { font-size: 64px; margin-bottom: 20px; }
+  .success-screen h2 { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--navy); margin-bottom: 12px; }
+  .success-screen p { font-size: 15px; color: var(--gray-500); line-height: 1.6; max-width: 460px; margin: 0 auto 28px; }
+  .success-steps { display: flex; flex-direction: column; gap: 12px; max-width: 420px; margin: 0 auto 28px; text-align: left; }
+  .success-step { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--navy); font-weight: 500; }
+  .ss-num {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: var(--navy); flex-shrink: 0;
+  }
+
+  /* footer */
+  .footer {
+    background: var(--navy); padding: 28px 24px;
+    display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap;
+    gap: 16px; margin-top: 40px;
+  }
+  .footer-logo { display: flex; align-items: center; gap: 12px; }
+  .footer-text { font-family: 'DM Sans', sans-serif; font-size: 11px; color: rgba(255,255,255,0.2); text-align: right; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgNjAiIGZpbGw9Im5vbmUiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJnMSIgeDE9IjEzIiB5MT0iMTYiIHgyPSIzOSIgeTI9IjkiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwZDRmZiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxYTczZTgiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImcyIiB4MT0iMTMiIHkxPSIyMiIgeDI9IjM5IiB5Mj0iMjkiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwZDRmZiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9InJnYmEoMjYsMTE1LDIzMiwwLjUpIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0LDExKSBzY2FsZSgxLjApIj4KICAgIDxsaW5lIHgxPSIxMyIgeTE9IjE2IiB4Mj0iMzkiIHkyPSI5IiAgc3Ryb2tlPSJ1cmwoI2cxKSIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1kYXNoYXJyYXk9IjIgMiIvPgogICAgPGxpbmUgeDE9IjEzIiB5MT0iMjIiIHgyPSIzOSIgeTI9IjI5IiBzdHJva2U9InVybCgjZzIpIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWRhc2hhcnJheT0iMiAyIi8+CiAgICA8bGluZSB4MT0iNDQiIHkxPSIxMiIgeDI9IjQ0IiB5Mj0iMjYiIHN0cm9rZT0icmdiYSgwLDIxMiwyNTUsMC4yNSkiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWRhc2hhcnJheT0iMiAyIi8+CiAgICA8Y2lyY2xlIGN4PSI4IiAgY3k9IjE5IiByPSI1IiAgIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwZDRmZiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICAgIDxjaXJjbGUgY3g9IjgiICBjeT0iMTkiIHI9IjIuNSIgZmlsbD0iIzFhNzNlOCIvPgogICAgPGNpcmNsZSBjeD0iNDQiIGN5PSI3IiAgcj0iNSIgICBmaWxsPSJub25lIiBzdHJva2U9IiMwMGQ0ZmYiIHN0cm9rZS13aWR0aD0iMS41Ii8+CiAgICA8Y2lyY2xlIGN4PSI0NCIgY3k9IjciICByPSIyLjUiIGZpbGw9IiMxYTczZTgiLz4KICAgIDxjaXJjbGUgY3g9IjQ0IiBjeT0iMzEiIHI9IjUiICAgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDAsMjEyLDI1NSwwLjUpIiBzdHJva2Utd2lkdGg9IjEuNSIvPgogICAgPGNpcmNsZSBjeD0iNDQiIGN5PSIzMSIgcj0iMi41IiBmaWxsPSJyZ2JhKDI2LDExNSwyMzIsMC41NSkiLz4KICA8L2c+CiAgPHRleHQgeD0iNjIiIHk9IjM2IiBmb250LWZhbWlseT0iUmFqZGhhbmksUG9wcGlucyxzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iNzAwIiBmb250LXNpemU9IjI4IiBsZXR0ZXItc3BhY2luZz0iMSIgZmlsbD0iI2ZmZmZmZiI+CiAgICA8dHNwYW4gZmlsbD0iIzAwZDRmZiI+SVQ8L3RzcGFuPi1JbnRlZ3JhbAogIDwvdGV4dD4KICA8dGV4dCB4PSI2NCIgeT0iNTIiIGZvbnQtZmFtaWx5PSJQb3BwaW5zLHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSIzMDAiIGZvbnQtc2l6ZT0iOSIgbGV0dGVyLXNwYWNpbmc9IjUiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4yOCkiPlNPTFVUSU9OUzwvdGV4dD4KPC9zdmc+" alt="IT-Integral Solutions" style="height:40px;display:block;">
+    </div>
+
+    <div class="elite-badge"><span>TASS · Plan Elite</span></div>
+    <h1>Formulario de<br><em>Implementación Elite</em></h1>
+    <p>El sistema más completo para agentes de viajes profesionales. Completá este formulario para que podamos configurar tu TASS Elite a medida.</p>
+
+    <div class="precio-badge">✦ Precio de lanzamiento · USD 850 pago único *</div>
+
+    <div class="elite-highlight">
+      <div class="elite-pill">
+        <div class="elite-pill-icon">🧩</div>
+        <div class="elite-pill-text"><strong>7 módulos</strong>Sistema completo todo incluido</div>
+      </div>
+      <div class="elite-pill">
+        <div class="elite-pill-icon">🎯</div>
+        <div class="elite-pill-text"><strong>Asesoría</strong>Sesiones personalizadas con el equipo</div>
+      </div>
+      <div class="elite-pill">
+        <div class="elite-pill-icon">⚡</div>
+        <div class="elite-pill-text"><strong>Soporte VIP</strong>USD 75/mes · Respuesta prioritaria</div>
+      </div>
+    </div>
+
+    <div class="header-steps">
+      <div class="h-step active" onclick="goTo(0)"><span class="h-step-num">1</span>Datos</div>
+      <div class="h-step" onclick="goTo(1)"><span class="h-step-num">2</span>Marca</div>
+      <div class="h-step" onclick="goTo(2)"><span class="h-step-num">3</span>Producto</div>
+      <div class="h-step" onclick="goTo(3)"><span class="h-step-num">4</span>Clientes</div>
+      <div class="h-step" onclick="goTo(4)"><span class="h-step-num">5</span>Pagos</div>
+      <div class="h-step" onclick="goTo(5)"><span class="h-step-num">6</span>Presencia</div>
+      <div class="h-step" onclick="goTo(6)"><span class="h-step-num">7</span>Asesoría</div>
+      <div class="h-step" onclick="goTo(7)"><span class="h-step-num">8</span>Cierre</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ── SECCIÓN 1: DATOS DEL AGENTE ── -->
+  <div class="section active" id="sec-0">
+    <div class="section-header">
+      <div class="section-icon">👤</div>
+      <div>
+        <div class="section-title">Datos del Agente</div>
+        <div class="section-subtitle">Información de contacto y datos de la agencia</div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label>Nombre completo <span class="req">*</span></label>
+        <input type="text" id="nombre" placeholder="Ej: María González" required>
+      </div>
+      <div class="field-group">
+        <label>Nombre de la agencia <span class="req">*</span></label>
+        <input type="text" id="agencia" placeholder="Ej: Viajes del Sur">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label>Email de trabajo <span class="req">*</span></label>
+        <input type="email" id="email" placeholder="hola@tuagencia.com">
+      </div>
+      <div class="field-group">
+        <label>WhatsApp / Teléfono <span class="req">*</span></label>
+        <input type="tel" id="telefono" placeholder="+54 9 11 0000-0000">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label>Sitio web actual <span class="opt">(si tenés)</span></label>
+        <input type="url" id="web" placeholder="https://tuagencia.com">
+      </div>
+      <div class="field-group">
+        <label>País y ciudad <span class="req">*</span></label>
+        <input type="text" id="pais" placeholder="Ej: Argentina · Buenos Aires">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label>¿Trabajás solo/a o en equipo? <span class="req">*</span></label>
+        <select id="equipo">
+          <option value="">— Seleccioná —</option>
+          <option value="solo">Solo/a</option>
+          <option value="2-3">Equipo de 2-3 personas</option>
+          <option value="4-10">Equipo de 4-10 personas</option>
+          <option value="mas10">Más de 10 personas</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>¿Años en el rubro? <span class="opt">(opcional)</span></label>
+        <select id="anos-rubro">
+          <option value="">— Seleccioná —</option>
+          <option value="0-2">Menos de 2 años</option>
+          <option value="2-5">2 a 5 años</option>
+          <option value="5-10">5 a 10 años</option>
+          <option value="mas10">Más de 10 años</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>¿Cuántos clientes activos manejás aproximadamente? <span class="req">*</span></label>
+      <div class="range-wrap">
+        <input type="range" id="clientes-range" min="0" max="1000" step="10" value="100" oninput="document.getElementById('clientes-val').textContent=this.value">
+        <div class="range-val" id="clientes-val">100</div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <span class="progress-text">Paso 1 de 8</span>
+      <button class="btn btn-primary" onclick="next(0)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ── SECCIÓN 2: MARCA ── -->
+  <div class="section" id="sec-1">
+    <div class="section-header">
+      <div class="section-icon">🎨</div>
+      <div>
+        <div class="section-title">Identidad de Marca</div>
+        <div class="section-subtitle">Para personalizar el sistema con tu imagen</div>
+      </div>
+    </div>
+
+    <div class="hint">Cuanto más completa sea esta sección, más profesional y alineado a tu marca quedará el sistema.</div>
+
+    <div class="field-group">
+      <label>Logo principal <span class="req">*</span></label>
+      <div class="file-drop">
+        <input type="file" accept="image/*,.svg,.pdf,.ai,.eps" onchange="handleFile(this,'logo-name')">
+        <div class="file-drop-icon">📎</div>
+        <p><strong>Subí tu logo</strong><br>PNG, SVG, PDF, AI, EPS · Fondo transparente ideal · Alta resolución</p>
+        <div class="file-name" id="logo-name"></div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Logo alternativo / versión secundaria <span class="opt">(opcional)</span></label>
+      <div class="file-drop">
+        <input type="file" accept="image/*,.svg,.pdf" onchange="handleFile(this,'logo2-name')">
+        <div class="file-drop-icon">🖼️</div>
+        <p><strong>Versión blanca, oscura o simplificada</strong><br>Para distintos fondos</p>
+        <div class="file-name" id="logo2-name"></div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label>Color principal <span class="req">*</span></label>
+        <div class="color-row">
+          <input type="color" id="color1-pick" value="#0D1B3E" oninput="syncColor('color1-pick','color1-hex')">
+          <input type="text" id="color1-hex" placeholder="#0D1B3E" oninput="syncHex('color1-hex','color1-pick')">
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Color secundario <span class="opt">(opcional)</span></label>
+        <div class="color-row">
+          <input type="color" id="color2-pick" value="#C9952A" oninput="syncColor('color2-pick','color2-hex')">
+          <input type="text" id="color2-hex" placeholder="#C9952A" oninput="syncHex('color2-hex','color2-pick')">
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>¿Tenés manual de marca o guía de estilo? <span class="opt">(opcional)</span></label>
+      <div class="file-drop">
+        <input type="file" accept=".pdf,.doc,.docx" onchange="handleFile(this,'branding-name')">
+        <div class="file-drop-icon">📐</div>
+        <p><strong>Manual de marca</strong><br>PDF, Word · Si tenés tipografías, colores definidos, etc.</p>
+        <div class="file-name" id="branding-name"></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label>Slogan o frase de marca <span class="opt">(opcional)</span></label>
+        <input type="text" id="slogan" placeholder="Ej: Viajá sin límites">
+      </div>
+      <div class="field-group">
+        <label>Tono de comunicación <span class="req">*</span></label>
+        <select id="tono">
+          <option value="">— Seleccioná —</option>
+          <option value="formal">Formal y profesional</option>
+          <option value="cercano">Cercano y amigable</option>
+          <option value="entusiasta">Entusiasta y dinámico</option>
+          <option value="premium">Exclusivo y premium</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Firma de mail <span class="opt">(opcional)</span></label>
+      <textarea id="firma" placeholder="Pegá acá el texto de tu firma actual, o describí cómo querés que quede..."></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-ghost" onclick="prev(1)">← Atrás</button>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span class="progress-text">Paso 2 de 8</span>
+        <button class="btn btn-primary" onclick="next(1)">Continuar →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECCIÓN 3: PRODUCTO ── -->
+  <div class="section" id="sec-2">
+    <div class="section-header">
+      <div class="section-icon">✈️</div>
+      <div>
+        <div class="section-title">Tu Producto</div>
+        <div class="section-subtitle">Qué vendés y cómo lo vendés</div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Destinos principales que vendés <span class="req">*</span></label>
+      <p style="font-size:12px;color:var(--gray-500);margin-bottom:10px">Seleccioná todos los que aplican</p>
+      <div class="chips-wrap" id="destinos-chips">
+        <div class="chip" onclick="toggleChip(this)">Caribe</div>
+        <div class="chip" onclick="toggleChip(this)">Europa</div>
+        <div class="chip" onclick="toggleChip(this)">USA / Canadá</div>
+        <div class="chip" onclick="toggleChip(this)">América del Sur</div>
+        <div class="chip" onclick="toggleChip(this)">México</div>
+        <div class="chip" onclick="toggleChip(this)">Asia</div>
+        <div class="chip" onclick="toggleChip(this)">Cruceros</div>
+        <div class="chip" onclick="toggleChip(this)">Luna de miel</div>
+        <div class="chip" onclick="toggleChip(this)">Turismo aventura</div>
+        <div class="chip" onclick="toggleChip(this)">Corporativo</div>
+        <div class="chip" onclick="toggleChip(this)">Patagonia</div>
+        <div class="chip" onclick="toggleChip(this)">África / Safari</div>
+        <div class="chip" onclick="toggleChip(this)">Disney / Orlando</div>
+        <div class="chip" onclick="toggleChip(this)">Universal Studios</div>
+        <div class="chip" onclick="toggleChip(this)">California</div>
+        <div class="chip" onclick="toggleChip(this)">Medio Oriente</div>
+        <div class="chip" onclick="toggleChip(this)">Oceanía</div>
+      </div>
+    </div>
+
+    <div class="field-group" style="margin-top:14px">
+      <label>Otros destinos <span class="opt">(opcional)</span></label>
+      <input type="text" id="otros-destinos" placeholder="Ej: Islandia, Japón, Galápagos...">
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field-group">
+      <label>¿Qué tipo de presupuestos armás? <span class="req">*</span></label>
+      <textarea id="tipo-presupuestos" placeholder="Ej: Paquetes completos (vuelo + hotel + traslados), solo alojamiento, circuitos guiados, experiencias VIP..."></textarea>
+    </div>
+
+    <div class="field-group">
+      <label>¿Tenés plantillas de presupuesto actuales? <span class="req">*</span></label>
+      <select id="tiene-plantillas">
+        <option value="">— Seleccioná —</option>
+        <option value="si-excel">Sí, en Excel / Google Sheets</option>
+        <option value="si-word">Sí, en Word / PDF</option>
+        <option value="si-otro">Sí, en otro formato</option>
+        <option value="no">No, armo cada uno desde cero</option>
+        <option value="mental">Las manejo de memoria / WhatsApp</option>
+      </select>
+    </div>
+
+    <div class="field-group" id="adjuntar-plantilla-wrap" style="display:none">
+      <label>Adjuntá una plantilla de ejemplo <span class="opt">(opcional pero muy útil)</span></label>
+      <div class="file-drop">
+        <input type="file" accept=".xlsx,.xls,.csv,.pdf,.doc,.docx" onchange="handleFile(this,'plantilla-name')">
+        <div class="file-drop-icon">📊</div>
+        <p><strong>Subí una plantilla</strong><br>Excel, Word o PDF</p>
+        <div class="file-name" id="plantilla-name"></div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Ticket promedio de tus paquetes <span class="opt">(opcional)</span></label>
+      <select id="ticket-prom">
+        <option value="">— Seleccioná —</option>
+        <option value="menos500">Menos de USD 500</option>
+        <option value="500-1500">USD 500 – 1.500</option>
+        <option value="1500-3000">USD 1.500 – 3.000</option>
+        <option value="3000-6000">USD 3.000 – 6.000</option>
+        <option value="mas6000">Más de USD 6.000</option>
+      </select>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-ghost" onclick="prev(2)">← Atrás</button>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span class="progress-text">Paso 3 de 8</span>
+        <button class="btn btn-primary" onclick="next(2)">Continuar →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECCIÓN 4: GESTIÓN DE CLIENTES ── -->
+  <div class="section" id="sec-3">
+    <div class="section-header">
+      <div class="section-icon">🗂️</div>
+      <div>
+        <div class="section-title">Gestión de Clientes</div>
+        <div class="section-subtitle">Client Manager — organizá tu cartera</div>
+        <div class="elite-section-badge">✦ Módulo Elite</div>
+      </div>
+    </div>
+
+    <div class="hint-elite">
+      <strong>Client Manager</strong> te da una ficha completa por cliente con historial, preferencias y alertas de fechas clave. Estos datos nos permiten configurarlo exactamente a tu estilo de trabajo.
+    </div>
+
+    <div class="field-group">
+      <label>¿Cómo organizás tus clientes actualmente? <span class="req">*</span></label>
+      <div class="chips-wrap" id="organiza-chips">
+        <div class="chip" onclick="toggleChip(this)">WhatsApp / chats</div>
+        <div class="chip" onclick="toggleChip(this)">Excel / planilla</div>
+        <div class="chip" onclick="toggleChip(this)">Agenda / papel</div>
+        <div class="chip" onclick="toggleChip(this)">CRM propio</div>
+        <div class="chip" onclick="toggleChip(this)">Email / Gmail</div>
+        <div class="chip" onclick="toggleChip(this)">No los organizo aún</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field-group">
+      <label>¿Qué información guardás de cada cliente? <span class="req">*</span></label>
+      <div class="chips-wrap" id="info-cliente-chips">
+        <div class="chip" onclick="toggleChip(this)">Datos personales</div>
+        <div class="chip" onclick="toggleChip(this)">Historial de viajes</div>
+        <div class="chip" onclick="toggleChip(this)">Preferencias de destino</div>
+        <div class="chip" onclick="toggleChip(this)">Presupuesto disponible</div>
+        <div class="chip" onclick="toggleChip(this)">Fechas importantes</div>
+        <div class="chip" onclick="toggleChip(this)">Pasaporte / documentos</div>
+        <div class="chip" onclick="toggleChip(this)">Composición familiar</div>
+        <div class="chip" onclick="toggleChip(this)">Notas personales</div>
+        <div class="chip" onclick="toggleChip(this)">Restricciones / alergias</div>
+        <div class="chip" onclick="toggleChip(this)">Categoría VIP</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field-group">
+      <label>¿Hacés seguimiento de leads (consultas sin cerrar)? <span class="req">*</span></label>
+      <div class="cond-cards">
+        <div class="cond-card" onclick="selectCond(this,'si-activo')">
+          <input type="radio" name="cond-leads" value="si-activo">
+          <div class="cond-card-label">Sí, activamente</div>
+          <div class="cond-card-desc">Tengo proceso de seguimiento</div>
+        </div>
+        <div class="cond-card" onclick="selectCond(this,'si-informal')">
+          <input type="radio" name="cond-leads" value="si-informal">
+          <div class="cond-card-label">A veces</div>
+          <div class="cond-card-desc">Cuando me acuerdo</div>
+        </div>
+        <div class="cond-card" onclick="selectCond(this,'no-proceso')">
+          <input type="radio" name="cond-leads" value="no-proceso">
+          <div class="cond-card-label">No tengo proceso</div>
+          <div class="cond-card-desc">Quiero implementarlo</div>
+        </div>
+        <div class="cond-card" onclick="selectCond(this,'referidos')">
+          <input type="radio" name="cond-leads" value="referidos">
+          <div class="cond-card-label">Trabajo por referidos</div>
+          <div class="cond-card-desc">Clientes me recomiendan</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>¿Cada cuánto contactás a tus clientes para retenerlos? <span class="opt">(opcional)</span></label>
+      <select id="frecuencia-contacto">
+        <option value="">— Seleccioná —</option>
+        <option value="siempre">Continuamente</option>
+        <option value="mensual">Una vez al mes</option>
+        <option value="trimestral">Cada 2-3 meses</option>
+        <option value="viaje">Solo cuando viajan</option>
+        <option value="nunca">Sin frecuencia definida</option>
+      </select>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-ghost" onclick="prev(3)">← Atrás</button>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span class="progress-text">Paso 4 de 8</span>
+        <button class="btn btn-primary" onclick="next(3)">Continuar →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECCIÓN 5: PAGOS Y DASHBOARD ── -->
+  <div class="section" id="sec-4">
+    <div class="section-header">
+      <div class="section-icon">💰</div>
+      <div>
+        <div class="section-title">Pagos y Dashboard</div>
+        <div class="section-subtitle">Payment Tracker + Sales Dashboard</div>
+        <div class="elite-section-badge">✦ Módulo Elite</div>
+      </div>
+    </div>
+
+    <div class="hint-elite">
+      <strong>Payment Tracker</strong> registra cobros y vencimientos con alertas automáticas. <strong>Sales Dashboard</strong> muestra métricas de ventas en tiempo real.
+    </div>
+
+    <div class="field-group">
+      <label>¿Cómo registrás los pagos hoy? <span class="req">*</span></label>
+      <div class="chips-wrap" id="registra-pagos-chips">
+        <div class="chip" onclick="toggleChip(this)">Excel / planilla propia</div>
+        <div class="chip" onclick="toggleChip(this)">Cuaderno / papel</div>
+        <div class="chip" onclick="toggleChip(this)">App de banco</div>
+        <div class="chip" onclick="toggleChip(this)">Sistema contable</div>
+        <div class="chip" onclick="toggleChip(this)">No los registro formalmente</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field-group">
+      <label>Condiciones de pago que ofrecés <span class="req">*</span></label>
+      <div class="cond-cards">
+        <div class="cond-card" onclick="selectCond(this,'seña-saldo')">
+          <input type="radio" name="cond-pago" value="seña-saldo">
+          <div class="cond-card-label">Seña + Saldo</div>
+          <div class="cond-card-desc">2 cuotas antes del viaje</div>
+        </div>
+        <div class="cond-card" onclick="selectCond(this,'cuotas')">
+          <input type="radio" name="cond-pago" value="cuotas">
+          <div class="cond-card-label">Cuotas mensuales</div>
+          <div class="cond-card-desc">Plan en varios meses</div>
+        </div>
+        <div class="cond-card" onclick="selectCond(this,'contado')">
+          <input type="radio" name="cond-pago" value="contado">
+          <div class="cond-card-label">Contado total</div>
+          <div class="cond-card-desc">Pago único al reservar</div>
+        </div>
+        <div class="cond-card" onclick="selectCond(this,'mixto')">
+          <input type="radio" name="cond-pago" value="mixto">
+          <div class="cond-card-label">Mixto / Variable</div>
+          <div class="cond-card-desc">Depende del paquete</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Medios de pago que aceptás <span class="req">*</span></label>
+      <div class="chips-wrap" id="medios-chips">
+        <div class="chip" onclick="toggleChip(this)">Transferencia bancaria</div>
+        <div class="chip" onclick="toggleChip(this)">MercadoPago</div>
+        <div class="chip" onclick="toggleChip(this)">Tarjeta de crédito</div>
+        <div class="chip" onclick="toggleChip(this)">Tarjeta de débito</div>
+        <div class="chip" onclick="toggleChip(this)">Efectivo</div>
+        <div class="chip" onclick="toggleChip(this)">PayPal</div>
+        <div class="chip" onclick="toggleChip(this)">Cripto</div>
+        <div class="chip" onclick="toggleChip(this)">Western Union</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field-group">
+      <label>¿Qué métricas querés ver en tu dashboard? <span class="req">*</span></label>
+      <div class="chips-wrap" id="metricas-chips">
+        <div class="chip" onclick="toggleChip(this)">Ventas del mes</div>
+        <div class="chip" onclick="toggleChip(this)">Cobros pendientes</div>
+        <div class="chip" onclick="toggleChip(this)">Destinos más vendidos</div>
+        <div class="chip" onclick="toggleChip(this)">Clientes nuevos vs recurrentes</div>
+        <div class="chip" onclick="toggleChip(this)">Tasa de cierre de leads</div>
+        <div class="chip" onclick="toggleChip(this)">Ingresos proyectados</div>
+        <div class="chip" onclick="toggleChip(this)">Viajes por mes</div>
+        <div class="chip" onclick="toggleChip(this)">Ticket promedio</div>
+        <div class="chip" onclick="toggleChip(this)">Comparativo anual</div>
+        <div class="chip" onclick="toggleChip(this)">Clientes por canal de captación</div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-ghost" onclick="prev(4)">← Atrás</button>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span class="progress-text">Paso 5 de 8</span>
+        <button class="btn btn-primary" onclick="next(4)">Continuar →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECCIÓN 6: PRESENCIA DIGITAL (ADD-ONS ELITE) ── -->
+  <div class="section" id="sec-5">
+    <div class="section-header">
+      <div class="section-icon">🌐</div>
+      <div>
+        <div class="section-title">Presencia Digital</div>
+        <div class="section-subtitle">Web · Email profesional · Instagram automatizado</div>
+        <div class="elite-section-badge">✦ Add-ons Elite</div>
+      </div>
+    </div>
+
+    <div class="hint-elite">
+      El plan Elite incluye los tres add-ons digitales. Configuramos cada uno según tu marca y flujo de trabajo. Completá los detalles de cada uno.
+    </div>
+
+    <!-- WEB -->
+    <div class="social-config" id="web-config">
+      <div class="social-config-head">
+        <div class="social-icon">🌐</div>
+        <div>
+          <div class="social-name">Mini sitio web de la agencia</div>
+          <div class="social-desc">Página profesional con formulario de consulta integrado a TASS</div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>¿Tenés dominio propio? <span class="req">*</span></label>
+        <div class="cond-cards">
+          <div class="cond-card" onclick="selectCondGroup(this,'cond-dominio')">
+            <input type="radio" name="cond-dominio" value="si">
+            <div class="cond-card-label">Sí, ya tengo</div>
+            <div class="cond-card-desc">Puedo compartir acceso</div>
+          </div>
+          <div class="cond-card" onclick="selectCondGroup(this,'cond-dominio')">
+            <input type="radio" name="cond-dominio" value="no-nuevo">
+            <div class="cond-card-label">No, necesito uno</div>
+            <div class="cond-card-desc">Me ayudan a conseguirlo</div>
+          </div>
+          <div class="cond-card" onclick="selectCondGroup(this,'cond-dominio')">
+            <input type="radio" name="cond-dominio" value="no-decide">
+            <div class="cond-card-label">No decidí aún</div>
+            <div class="cond-card-desc">Lo veo con el equipo</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Nombre de dominio deseado <span class="opt">(si ya sabés cuál)</span></label>
+        <input type="text" id="dominio" placeholder="Ej: viajesdelmar.com · maguiviajes.com">
+      </div>
+      <div class="field-group">
+        <label>¿Qué páginas / secciones querés en tu sitio? <span class="opt">(opcional)</span></label>
+        <div class="chips-wrap" id="secciones-web-chips">
+          <div class="chip" onclick="toggleChip(this)">Inicio / bienvenida</div>
+          <div class="chip" onclick="toggleChip(this)">Sobre mí / quiénes somos</div>
+          <div class="chip" onclick="toggleChip(this)">Destinos / servicios</div>
+          <div class="chip" onclick="toggleChip(this)">Formulario de consulta</div>
+          <div class="chip" onclick="toggleChip(this)">Galería de viajes</div>
+          <div class="chip" onclick="toggleChip(this)">Testimonios</div>
+          <div class="chip" onclick="toggleChip(this)">Blog / novedades</div>
+          <div class="chip" onclick="toggleChip(this)">Contacto</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMAIL -->
+    <div class="social-config" id="email-config">
+      <div class="social-config-head">
+        <div class="social-icon">📧</div>
+        <div>
+          <div class="social-name">Email profesional con dominio</div>
+          <div class="social-desc">Ej: hola@tuagencia.com · Más profesional que Gmail</div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label>Dirección de mail deseada <span class="opt">(opcional)</span></label>
+          <input type="text" id="email-deseado" placeholder="Ej: hola@ · consultas@ · maria@">
+        </div>
+        <div class="field-group">
+          <label>¿Cuántas cuentas necesitás? <span class="opt">(opcional)</span></label>
+          <select id="cant-mails">
+            <option value="">— Seleccioná —</option>
+            <option value="1">1 cuenta</option>
+            <option value="2-3">2 a 3 cuentas</option>
+            <option value="mas3">Más de 3</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSTAGRAM -->
+    <div class="social-config" id="instagram-config">
+      <div class="social-config-head">
+        <div class="social-icon">📲</div>
+        <div>
+          <div class="social-name">Instagram automatizado</div>
+          <div class="social-desc">Respuestas automáticas a consultas por DM · Captación de leads</div>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>@ de tu cuenta de Instagram <span class="opt">(si tenés)</span></label>
+        <input type="text" id="instagram-user" placeholder="@tuagencia">
+      </div>
+      <div class="field-group">
+        <label>¿Qué tipo de mensajes automáticos necesitás? <span class="opt">(opcional)</span></label>
+        <div class="chips-wrap" id="ig-auto-chips">
+          <div class="chip" onclick="toggleChip(this)">Respuesta a "precio"</div>
+          <div class="chip" onclick="toggleChip(this)">Bienvenida a nuevos seguidores</div>
+          <div class="chip" onclick="toggleChip(this)">Redirigir a WhatsApp</div>
+          <div class="chip" onclick="toggleChip(this)">Respuesta a palabras clave</div>
+          <div class="chip" onclick="toggleChip(this)">Envío de catálogo de destinos</div>
+          <div class="chip" onclick="toggleChip(this)">Recolección de datos de contacto</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-ghost" onclick="prev(5)">← Atrás</button>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span class="progress-text">Paso 6 de 8</span>
+        <button class="btn btn-primary" onclick="next(5)">Continuar →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECCIÓN 7: ASESORÍA PERSONALIZADA (ELITE EXCLUSIVO) ── -->
+  <div class="section" id="sec-6">
+    <div class="section-header">
+      <div class="section-icon">🎯</div>
+      <div>
+        <div class="section-title">Asesoría Personalizada</div>
+        <div class="section-subtitle">Sesiones estratégicas incluidas en tu plan Elite</div>
+        <div class="elite-section-badge">✦ Exclusivo Elite</div>
+      </div>
+    </div>
+
+    <div class="hint-elite">
+      <strong>Tu plan Elite incluye sesiones de asesoría</strong> con el equipo de IT Integral. Estas sesiones se ajustan a tus objetivos de negocio. Contanos en qué áreas querés trabajar.
+    </div>
+
+    <div class="field-group">
+      <label>¿En qué áreas querés recibir asesoría? <span class="req">*</span></label>
+      <div class="asesoria-grid">
+        <div class="asesoria-card" onclick="toggleAsesoria(this)">
+          <input type="checkbox" name="asesoria">
+          <div class="asesoria-card-icon">📈</div>
+          <div class="asesoria-card-title">Estrategia de ventas</div>
+          <div class="asesoria-card-desc">Cómo captar más clientes y cerrar más presupuestos</div>
+        </div>
+        <div class="asesoria-card" onclick="toggleAsesoria(this)">
+          <input type="checkbox" name="asesoria">
+          <div class="asesoria-card-icon">💬</div>
+          <div class="asesoria-card-title">Comunicación digital</div>
+          <div class="asesoria-card-desc">Instagram, WhatsApp Business, email marketing</div>
+        </div>
+        <div class="asesoria-card" onclick="toggleAsesoria(this)">
+          <input type="checkbox" name="asesoria">
+          <div class="asesoria-card-icon">🤖</div>
+          <div class="asesoria-card-title">Automatización</div>
+          <div class="asesoria-card-desc">Flujos automáticos para ahorrar tiempo en tareas repetitivas</div>
+        </div>
+        <div class="asesoria-card" onclick="toggleAsesoria(this)">
+          <input type="checkbox" name="asesoria">
+          <div class="asesoria-card-icon">💡</div>
+          <div class="asesoria-card-title">Diferenciación de marca</div>
+          <div class="asesoria-card-desc">Cómo posicionarte vs otras agencias</div>
+        </div>
+        <div class="asesoria-card" onclick="toggleAsesoria(this)">
+          <input type="checkbox" name="asesoria">
+          <div class="asesoria-card-icon">📊</div>
+          <div class="asesoria-card-title">Análisis de métricas</div>
+          <div class="asesoria-card-desc">Interpretación del dashboard y toma de decisiones</div>
+        </div>
+        <div class="asesoria-card" onclick="toggleAsesoria(this)">
+          <input type="checkbox" name="asesoria">
+          <div class="asesoria-card-icon">🌍</div>
+          <div class="asesoria-card-title">Expansión de destinos</div>
+          <div class="asesoria-card-desc">Estrategia para ampliar el portfolio de productos</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Describí tu mayor desafío de negocio hoy <span class="opt">(opcional pero valioso)</span></label>
+      <textarea id="desafio" placeholder="Ej: No consigo cerrar presupuestos. Tengo muchos leads que no avanzan. Me falta tiempo para el seguimiento. Quiero cobrar más sin perder clientes..."></textarea>
+    </div>
+
+    <div class="field-group">
+      <label>¿Cuál es tu objetivo de facturación para los próximos 6 meses? <span class="opt">(opcional)</span></label>
+      <select id="objetivo-fact">
+        <option value="">— Seleccioná —</option>
+        <option value="mantener">Mantener lo que factura actualmente</option>
+        <option value="20-30">Crecer un 20–30%</option>
+        <option value="50">Crecer un 50%</option>
+        <option value="doble">Duplicar la facturación</option>
+        <option value="no-se">Aún no lo definí</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label>¿Tenés algún proceso de trabajo documentado? <span class="opt">(opcional)</span></label>
+      <div class="cond-cards">
+        <div class="cond-card" onclick="selectCondGroup(this,'cond-procesos')">
+          <input type="radio" name="cond-procesos" value="si-completo">
+          <div class="cond-card-label">Sí, documentado</div>
+          <div class="cond-card-desc">Tengo manual o checklist</div>
+        </div>
+        <div class="cond-card" onclick="selectCondGroup(this,'cond-procesos')">
+          <input type="radio" name="cond-procesos" value="si-informal">
+          <div class="cond-card-label">Informal</div>
+          <div class="cond-card-desc">Lo tengo en la cabeza</div>
+        </div>
+        <div class="cond-card" onclick="selectCondGroup(this,'cond-procesos')">
+          <input type="radio" name="cond-procesos" value="no">
+          <div class="cond-card-label">No tengo</div>
+          <div class="cond-card-desc">Quiero construirlo</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-ghost" onclick="prev(6)">← Atrás</button>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span class="progress-text">Paso 7 de 8</span>
+        <button class="btn btn-primary" onclick="next(6)">Continuar →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECCIÓN 8: CIERRE ── -->
+  <div class="section" id="sec-7">
+    <div class="section-header">
+      <div class="section-icon">🏁</div>
+      <div>
+        <div class="section-title">Últimos detalles</div>
+        <div class="section-subtitle">Para dejar tu TASS Elite 100% listo</div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>¿Qué herramientas o sistemas usás hoy en tu agencia? <span class="opt">(opcional)</span></label>
+      <textarea id="herramientas" placeholder="Ej: Gmail, WhatsApp Business, Amadeus, Excel, Canva, Mailchimp, Metricool, Hotmart..."></textarea>
+    </div>
+
+    <div class="field-group">
+      <label>¿Hay integraciones específicas que necesitás? <span class="opt">(opcional)</span></label>
+      <div class="chips-wrap" id="integraciones-chips">
+        <div class="chip" onclick="toggleChip(this)">WhatsApp Business API</div>
+        <div class="chip" onclick="toggleChip(this)">MercadoPago</div>
+        <div class="chip" onclick="toggleChip(this)">Google Calendar</div>
+        <div class="chip" onclick="toggleChip(this)">Mailchimp / email marketing</div>
+        <div class="chip" onclick="toggleChip(this)">Metricool / Hootsuite</div>
+        <div class="chip" onclick="toggleChip(this)">Amadeus / Sabre GDS</div>
+        <div class="chip" onclick="toggleChip(this)">Google Sheets</div>
+        <div class="chip" onclick="toggleChip(this)">Canva</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field-group">
+      <label>¿Hay algo más que debamos saber para configurar tu sistema Elite?</label>
+      <textarea id="notas-extra" placeholder="Cualquier detalle especial, flujo de trabajo particular, requerimientos técnicos, situación específica de tu agencia..."></textarea>
+    </div>
+
+    <div class="field-group">
+      <label>Disponibilidad para la videollamada de onboarding Elite <span class="req">*</span></label>
+      <textarea id="disponibilidad" placeholder="Ej: Lunes a viernes de 10 a 18 hs · Prefiero Zoom · Zona horaria Argentina GMT-3" style="min-height:70px"></textarea>
+    </div>
+
+    <div class="hint" style="margin-top:8px">
+      <strong style="color:var(--gray-700)">Nota importante:</strong> El precio del plan Elite no incluye costos de dominio, hosting ni su renovación anual. El equipo te informará estos valores durante el onboarding.
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-ghost" onclick="prev(7)">← Atrás</button>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span class="progress-text">Paso 8 de 8</span>
+        <button class="btn-submit" onclick="submit()">Enviar formulario Elite ✦</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SUCCESS ── -->
+  <div class="success-screen" id="success">
+    <div class="success-icon">✦</div>
+    <h2>¡Bienvenida al nivel Elite!</h2>
+    <p>Recibimos tu formulario completo. El equipo IT Integral Solutions ya tiene todo lo que necesita para construir tu sistema más potente.</p>
+    <div class="success-steps">
+      <div class="success-step"><div class="ss-num">1</div>Revisamos tu formulario en profundidad (hoy)</div>
+      <div class="success-step"><div class="ss-num">2</div>Llamada de estrategia inicial (dentro de 48 hs)</div>
+      <div class="success-step"><div class="ss-num">3</div>Configuración de los 7 módulos + add-ons (15–20 días hábiles)</div>
+      <div class="success-step"><div class="ss-num">4</div>Onboarding extendido y sesiones de asesoría</div>
+      <div class="success-step"><div class="ss-num">5</div>Soporte VIP activado · WhatsApp prioritario</div>
+    </div>
+    <p style="font-size:13px">¿Preguntas? Escribinos: <a href="https://wa.me/5491133634277?text=Tengo%20una%20consulta%20sobre%20mi%20TASS%20Elite" style="color:var(--gold);font-weight:700">+54 9 11 3363-4277</a></p>
+  </div>
+
+</div><!-- /main -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">
+    <svg width="36" height="26" viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="8" cy="19" r="5" fill="none" stroke="#C9952A" stroke-width="1.5"/>
+      <circle cx="8" cy="19" r="2.5" fill="#C9952A"/>
+      <circle cx="44" cy="7" r="5" fill="none" stroke="#C9952A" stroke-width="1.5"/>
+      <circle cx="44" cy="7" r="2.5" fill="#C9952A"/>
+      <circle cx="44" cy="31" r="5" fill="none" stroke="rgba(201,149,42,0.45)" stroke-width="1.5"/>
+      <circle cx="44" cy="31" r="2.5" fill="rgba(201,149,42,0.35)"/>
+      <line x1="13" y1="16" x2="39" y2="9" stroke="url(#ftg1)" stroke-width="1.2" stroke-dasharray="2 2"/>
+      <line x1="13" y1="22" x2="39" y2="29" stroke="url(#ftg2)" stroke-width="1.2" stroke-dasharray="2 2"/>
+      <line x1="44" y1="12" x2="44" y2="26" stroke="rgba(201,149,42,0.2)" stroke-width="1" stroke-dasharray="2 2"/>
+      <defs>
+        <linearGradient id="ftg1" x1="13" y1="16" x2="39" y2="9" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#C9952A"/><stop offset="100%" stop-color="rgba(201,149,42,0.55)"/>
+        </linearGradient>
+        <linearGradient id="ftg2" x1="13" y1="22" x2="39" y2="29" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#C9952A"/><stop offset="100%" stop-color="rgba(201,149,42,0.35)"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div>
+      <div style="font-family:Rajdhani,sans-serif;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);"><span style="color:#C9952A;">IT</span>-Integral Solutions</div>
+      <div style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.2);">Desarrollado por IT Integral Solutions</div>
+    </div>
+  </div>
+  <div class="footer-text">
+    Sistema TASS Elite · Travel Agent Sales System<br>
+    <span style="color:rgba(255,255,255,.12);">© 2025 IT Integral Solutions</span>
+  </div>
+</footer>
+
+<script>
+  let current = 0;
+  const TOTAL = 8;
+
+  function goTo(n) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.h-step').forEach((s, i) => {
+      s.classList.remove('active','done');
+      if (i < n) s.classList.add('done');
+    });
+    document.getElementById('sec-' + n).classList.add('active');
+    document.querySelectorAll('.h-step')[n].classList.add('active');
+    current = n;
+    window.scrollTo({top: 0, behavior:'smooth'});
+  }
+
+  function next(from) {
+    if (from === 0) {
+      const nombre = document.getElementById('nombre').value.trim();
+      const email  = document.getElementById('email').value.trim();
+      const tel    = document.getElementById('telefono').value.trim();
+      if (!nombre || !email || !tel) {
+        alert('Por favor completá nombre, email y teléfono antes de continuar.');
+        return;
+      }
+    }
+    if (from < TOTAL - 1) goTo(from + 1);
+  }
+
+  function prev(from) { if (from > 0) goTo(from - 1); }
+
+  function toggleChip(el) { el.classList.toggle('selected'); }
+
+  function selectCond(card, val) {
+    card.closest('.cond-cards').querySelectorAll('.cond-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    card.querySelector('input[type=radio]').checked = true;
+  }
+
+  function selectCondGroup(card, name) {
+    card.closest('.cond-cards').querySelectorAll('.cond-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    card.querySelector('input[type=radio]').checked = true;
+  }
+
+  function toggleAsesoria(card) {
+    card.classList.toggle('selected');
+    card.querySelector('input[type=checkbox]').checked = card.classList.contains('selected');
+  }
+
+  function syncColor(pickId, hexId) { document.getElementById(hexId).value = document.getElementById(pickId).value; }
+  function syncHex(hexId, pickId) {
+    const val = document.getElementById(hexId).value;
+    if (/^#[0-9A-Fa-f]{6}$/.test(val)) document.getElementById(pickId).value = val;
+  }
+
+  function handleFile(input, nameId) {
+    const el = document.getElementById(nameId);
+    if (input.files[0]) { el.textContent = '✓ ' + input.files[0].name; el.style.display = 'block'; }
+  }
+
+  document.getElementById('tiene-plantillas').addEventListener('change', function() {
+    document.getElementById('adjuntar-plantilla-wrap').style.display =
+      (this.value && this.value !== 'no' && this.value !== 'mental') ? 'block' : 'none';
+  });
+
+  function getChips(id) {
+    return [...document.querySelectorAll('#' + id + ' .chip.selected')].map(c => c.textContent).join(', ');
+  }
+
+  function getAsesorias() {
+    return [...document.querySelectorAll('.asesoria-card.selected .asesoria-card-title')].map(c => c.textContent).join(', ');
+  }
+
+  async function submit() {
+    const disp = document.getElementById('disponibilidad').value.trim();
+    if (!disp) { alert('Por favor indicá tu disponibilidad para la videollamada.'); return; }
+
+    const condPago = document.querySelector('[name="cond-pago"]')?.closest('.cond-cards')
+      ?.querySelector('.cond-card.selected .cond-card-label')?.textContent || '';
+
+    const payload = {
+      plan:                 'Elite',
+      nombre:               document.getElementById('nombre').value,
+      agencia:              document.getElementById('agencia').value,
+      email:                document.getElementById('email').value,
+      _replyto:             document.getElementById('email').value,
+      telefono:             document.getElementById('telefono').value,
+      web:                  document.getElementById('web').value,
+      pais:                 document.getElementById('pais').value,
+      equipo:               document.getElementById('equipo').value,
+      anos_rubro:           document.getElementById('anos-rubro').value,
+      clientes_activos:     document.getElementById('clientes-val').textContent,
+      color_principal:      document.getElementById('color1-hex').value || document.getElementById('color1-pick').value,
+      color_secundario:     document.getElementById('color2-hex').value || document.getElementById('color2-pick').value,
+      slogan:               document.getElementById('slogan').value,
+      tono:                 document.getElementById('tono').value,
+      firma:                document.getElementById('firma').value,
+      destinos_principales: getChips('destinos-chips'),
+      otros_destinos:       document.getElementById('otros-destinos').value,
+      tipo_presupuestos:    document.getElementById('tipo-presupuestos').value,
+      tiene_plantillas:     document.getElementById('tiene-plantillas').value,
+      ticket_promedio:      document.getElementById('ticket-prom').value,
+      organiza_clientes:    getChips('organiza-chips'),
+      info_cliente:         getChips('info-cliente-chips'),
+      frecuencia_contacto:  document.getElementById('frecuencia-contacto').value,
+      registra_pagos:       getChips('registra-pagos-chips'),
+      condicion_pago:       condPago,
+      medios_de_pago:       getChips('medios-chips'),
+      metricas_dashboard:   getChips('metricas-chips'),
+      dominio:              document.getElementById('dominio').value,
+      secciones_web:        getChips('secciones-web-chips'),
+      email_deseado:        document.getElementById('email-deseado').value,
+      cant_mails:           document.getElementById('cant-mails').value,
+      instagram_user:       document.getElementById('instagram-user').value,
+      ig_automatizaciones:  getChips('ig-auto-chips'),
+      asesoria_areas:       getAsesorias(),
+      desafio_negocio:      document.getElementById('desafio').value,
+      objetivo_facturacion: document.getElementById('objetivo-fact').value,
+      herramientas:         document.getElementById('herramientas').value,
+      integraciones:        getChips('integraciones-chips'),
+      notas_extra:          document.getElementById('notas-extra').value,
+      disponibilidad:       disp,
+    };
+
+    const btn = document.querySelector('.btn-submit');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: 'ecf050c4-3154-4daa-9d20-7db0d3250967',
+          subject: 'Nueva implementación TASS Elite ✦ — ' + (document.getElementById('nombre').value || ''),
+          from_name: 'Formulario TASS Elite',
+          replyto: document.getElementById('email').value,
+          botcheck: false,
+          ...payload
+        })
+      });
+
+      if (res.ok) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.h-step').forEach(s => { s.classList.remove('active'); s.classList.add('done'); });
+        document.getElementById('success').classList.add('show');
+        window.scrollTo({top: 0, behavior:'smooth'});
+      } else { throw new Error(); }
+    } catch(e) {
+      btn.textContent = 'Enviar formulario Elite ✦';
+      btn.disabled = false;
+      alert('Hubo un problema al enviar. Revisá tu conexión e intentá de nuevo.');
+    }
+  }
+
+  document.querySelectorAll('.file-drop').forEach(drop => {
+    drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+    drop.addEventListener('drop', () => drop.classList.remove('dragover'));
+  });
+</script>
+</body>
+</html>
